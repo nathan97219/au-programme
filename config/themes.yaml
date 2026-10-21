@@ -1,0 +1,14 @@
+# Un thème par semaine, dans cet ordre (priorités des Français : sondage Elabe pour BFMTV, 25-26 août 2026).
+# Pour traiter en priorité un sujet qui fait la une : le déplacer en tête de la partie « à venir ».
+themes:
+  - {id: pouvoir-d-achat, nom: "Pouvoir d'achat", hashtag: "#pouvoirdachat"}
+  - {id: securite, nom: "Sécurité", hashtag: "#securite"}
+  - {id: dette, nom: "Dette publique", hashtag: "#dettepublique"}
+  - {id: sante, nom: "Santé", hashtag: "#sante"}
+  - {id: immigration, nom: "Immigration", hashtag: "#immigration"}
+  - {id: climat, nom: "Climat", hashtag: "#climat"}
+  - {id: inegalites, nom: "Inégalités", hashtag: "#inegalites"}
+  - {id: education, nom: "Éducation", hashtag: "#education"}
+  - {id: retraites, nom: "Retraites", hashtag: "#retraites"}
+  - {id: emploi, nom: "Emploi", hashtag: "#emploi"}
+  - {id: logement, nom: "Logement", hashtag: "#logement"}

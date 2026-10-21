@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Archivo"; src: url("{{ polices }}/archivo-wdth.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+@font-face { font-family: "Serif"; src: url("{{ polices }}/dm-serif-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Inter"; src: url("{{ polices }}/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Mono"; src: url("{{ polices }}/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+/* Même maquette pour tous les candidats : papier, encre, surligneur. Aucune couleur de parti. */
+:root { --papier: #F4F1EA; --encre: #15171C; --doux: #5D6170; --pale: #8E919C; --trait: #DDD8CC; --surligneur: #FFD84D; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--papier); }
+body { color: var(--encre); font-family: "Inter", sans-serif; position: relative; }
+.fond { position: absolute; inset: 0; background-image: linear-gradient(var(--trait) 2px, transparent 2px); background-size: 100% 96px; opacity: .45; }
+.marge { position: absolute; top: 0; bottom: 0; left: 64px; width: 3px; background: #E9B9B0; opacity: .5; }
+.progression { position: absolute; top: 0; left: 0; height: 10px; background: var(--encre); }
+/* Zones sûres des Reels : rien d'important sous 1500 px ni à droite de 960 px */
+.tete { position: absolute; top: 150px; left: 90px; right: 120px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: "Archivo"; font-weight: 800; font-size: 34px; }
+.theme { font-family: "Mono"; font-size: 26px; color: var(--doux); letter-spacing: .06em; text-transform: uppercase; }
+.surl { background-image: linear-gradient(transparent 58%, var(--surligneur) 58%, var(--surligneur) 92%, transparent 92%);
+        background-repeat: no-repeat; background-size: calc(var(--h, 0) * 100%) 100%; padding: 0 .05em; margin: 0 -.05em; }
+.logo .surl { --h: 1; }
+
+.scene { position: absolute; left: 90px; right: 120px; top: 270px; height: 1220px; display: flex; flex-direction: column; justify-content: center; opacity: 0; }
+.el { opacity: 0; }
+.etiquette { font-family: "Mono"; font-size: 28px; letter-spacing: .1em; color: var(--doux); text-transform: uppercase; }
+
+/* Intro */
+.cadre { width: 520px; height: 640px; border-radius: 14px; overflow: hidden; background: #E7E3DA; margin-top: 34px; position: relative; }
+.cadre img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.monogramme { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: "Archivo"; font-weight: 900; font-size: 220px; color: #B9B4A9; }
+.credit { font-family: "Mono"; font-size: 20px; color: var(--pale); margin-top: 12px; max-width: 760px; line-height: 1.35; }
+.nom { font-family: "Archivo"; font-weight: 900; font-stretch: 85%; font-size: 104px; line-height: .98; letter-spacing: -.02em; margin-top: 34px; }
+.parti { font-size: 44px; font-weight: 700; color: var(--doux); margin-top: 16px; }
+.tirage { font-family: "Mono"; font-size: 24px; color: var(--pale); margin-top: 30px; }
+
+/* Mesure */
+.titre { font-family: "Archivo"; font-weight: 850; font-stretch: 88%; font-size: 86px; line-height: 1.04; letter-spacing: -.015em; margin-top: 26px; }
+.explication { font-size: 48px; line-height: 1.32; font-weight: 600; color: #2A2D35; margin-top: 40px; }
+.citation { margin-top: 48px; background: #FFFFFF; border-radius: 10px; padding: 34px 40px 30px; box-shadow: 0 14px 40px rgba(21, 23, 28, .08); }
+.citation .g { font-family: "Serif"; font-size: 140px; line-height: .55; height: 54px; }
+.citation .t { font-family: "Serif"; font-size: 50px; line-height: 1.22; }
+.citation .a { font-family: "Mono"; font-size: 24px; color: var(--doux); margin-top: 18px; }
+.source { margin-top: 44px; padding-top: 22px; border-top: 2px solid var(--trait); font-family: "Mono"; font-size: 26px; color: var(--doux); line-height: 1.4; }
+
+/* Aucune proposition */
+.aucune { font-family: "Archivo"; font-weight: 850; font-stretch: 88%; font-size: 84px; line-height: 1.06; margin-top: 30px; }
+.verifie { font-size: 38px; line-height: 1.35; color: var(--doux); margin-top: 44px; font-weight: 600; }
+
+/* Fin */
+.demain { font-family: "Archivo"; font-weight: 900; font-stretch: 85%; font-size: 112px; line-height: .98; margin-top: 26px; }
+.legende { font-size: 46px; font-weight: 700; margin-top: 60px; }
+.pseudo { font-family: "Archivo"; font-weight: 900; font-size: 66px; margin-top: 70px; }
+.mention { font-family: "Mono"; font-size: 24px; color: var(--pale); margin-top: 30px; line-height: 1.45; }
+</style>
+</head>
+<body>
+<div class="fond"></div><div class="marge"></div>
+<div class="progression" id="progression"></div>
+<div class="tete"><div class="logo">Au <span class="surl">Programme</span></div><div class="theme">{{ prog.theme.nom }} · {{ prog.rang }}/{{ prog.total }}</div></div>
+
+{% for s in scenes %}
+<section class="scene">
+{% if s.type == "intro" %}
+  <div class="etiquette el" data-p="0">{{ prog.theme.nom }} · candidat {{ prog.rang }} sur {{ prog.total }}</div>
+  <div class="cadre el" data-p="0.05">{% if photo %}<img src="{{ photo }}" alt="">{% else %}<div class="monogramme">{{ initiales }}</div>{% endif %}</div>
+  {% if credit_photo %}<div class="credit el" data-p="0.1">Photo : {{ credit_photo }}</div>{% endif %}
+  <div class="nom el" data-p="0.35">{{ c.nom }}</div>
+  <div class="parti el" data-p="0.6">{{ c.parti }}</div>
+  <div class="tirage el" data-p="0.8">Ordre de passage tiré au sort</div>
+{% elif s.type == "mesure" %}
+  <div class="etiquette el" data-p="0">Proposition {{ s.numero }}</div>
+  <div class="titre el" data-p="0.02"><span class="surl" data-h="0.1">{{ s.mesure.titre }}</span></div>
+  <div class="explication el" data-p="0.4">{{ s.mesure.explication }}</div>
+  {% if s.mesure.citation %}
+  <div class="citation el" data-p="0.75"><div class="g">“</div><div class="t">{{ s.mesure.citation }}</div><div class="a">— {{ c.nom }}</div></div>
+  {% endif %}
+  <div class="source el" data-p="0.5">Source : {{ s.source }}</div>
+{% elif s.type == "aucune" %}
+  <div class="etiquette el" data-p="0">{{ prog.theme.nom }}</div>
+  <div class="aucune el" data-p="0.02">Pas de proposition vérifiable trouvée sur ce point <span class="surl" data-h="0.3">à ce jour</span>.</div>
+  <div class="verifie el" data-p="0.6">Recherche du {{ consulte }} : presse nationale, sites officiels, sites du candidat et de son parti.</div>
+{% else %}
+  {% if prog.suivant.meme_theme %}
+  <div class="etiquette el" data-p="0">Demain · {{ prog.theme.nom }}</div>
+  <div class="demain el" data-p="0.05">{{ prog.suivant.candidat.nom }}</div>
+  {% else %}
+  <div class="etiquette el" data-p="0">Lundi · nouveau thème</div>
+  <div class="demain el" data-p="0.05"><span class="surl" data-h="0.2">{{ prog.suivant.theme.nom }}</span></div>
+  {% endif %}
+  <div class="legende el" data-p="0.45">Toutes les sources sont en légende.</div>
+  <div class="pseudo el" data-p="0.6">{{ marque.instagram }}</div>
+  <div class="mention el" data-p="0.7">{{ marque.mention }}</div>
+{% endif %}
+</section>
+{% endfor %}
+
+<script>
+const D = {{ donnees | tojson }};
+const lisse = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
+const scenes = [...document.querySelectorAll(".scene")].map((el, i) => ({
+  el, ...D.scenes[i],
+  els: [...el.querySelectorAll(".el")].map((e) => ({ e, p: +e.dataset.p })),
+  surl: [...el.querySelectorAll("[data-h]")].map((e) => ({ e, p: +e.dataset.h })),
+}));
+window.poser = (t) => {
+  document.getElementById("progression").style.width = `${Math.min(1, t / D.total) * 100}%`;
+  scenes.forEach((s, i) => {
+    const entree = lisse((t - s.debut) / 0.35);
+    const sortie = i === scenes.length - 1 ? 1 : 1 - lisse((t - s.fin + 0.3) / 0.3);
+    const visible = t >= s.debut - 0.01 && t < s.fin + 0.01;
+    s.el.style.opacity = visible ? Math.min(entree, sortie) : 0;
+    const p = (t - s.debut) / Math.max(1.2, s.voix || (s.fin - s.debut - 0.5));
+    s.els.forEach(({ e, p: seuil }) => {
+      const q = lisse((p - seuil) / 0.12);
+      e.style.opacity = q;
+      e.style.transform = `translateY(${(1 - q) * 40}px)`;
+    });
+    s.surl.forEach(({ e, p: seuil }) => e.style.setProperty("--h", lisse((p - seuil) / 0.35)));
+  });
+};
+window.poser(0);
+</script>
+</body>
+</html>

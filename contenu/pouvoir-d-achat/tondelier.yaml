@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: tondelier
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "Un « bouclier environnemental et social »"
+    explication: "Il porterait sur les trois principaux postes de dépenses des Français : logement, transports et alimentation."
+    citation: "Sans logement décent, on ne peut pas bien se nourrir, on ne peut pas bien travailler, ni bien se reposer ou vivre en famille."
+    source:
+      media: "Lyon Capitale"
+      titre: "À Lyon, Marine Tondelier et Grégory Doucet mobilisés pour garantir l'accès à des logements « dignes et abordables »"
+      url: "https://www.lyoncapitale.fr/actualite/a-lyon-marine-tondelier-et-gregory-doucet-mobilises-pour-garantir-l-acces-a-des-logements-dignes-et-abordables"
+      date: 2026-07-15
+  - titre: "Taxer les « superprofits » des pétroliers"
+    explication: "Pour financer une aide ciblée face à la hausse des prix des carburants."
+    citation: null
+    source:
+      media: "Sud Radio"
+      titre: "Présidentielle 2027 : que proposent les candidats pour lutter contre la flambée des prix du carburant ?"
+      url: "https://www.sudradio.fr/politique/presidentielle-2027-que-proposent-les-candidats-pour-lutter-contre-la-flambee-des-prix-du-carburant"
+      date: 2026-09-16

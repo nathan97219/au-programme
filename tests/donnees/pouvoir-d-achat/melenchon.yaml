@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: melenchon
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "Bloquer les prix, les marges et les loyers"
+    explication: "Annoncé à Lille comme mesure d'urgence, avec une hausse du SMIC et des salaires intermédiaires."
+    citation: "bloquer les prix, les marges de profit, bloquer les loyers"
+    source:
+      media: "L'Insoumission (média de La France insoumise)"
+      titre: "Blocage des prix, hausse des salaires : à Lille, Mélenchon a présenté ses mesures d'urgence sociale"
+      url: "https://linsoumission.fr/2026/09/05/jean-luc-melenchon-braderie-lille/"
+      date: 2026-09-05
+  - titre: "Rétablir l'échelle mobile des salaires"
+    explication: "Quand les prix augmentent, les salaires suivraient automatiquement."
+    citation: null
+    source:
+      media: "L'Insoumission (média de La France insoumise)"
+      titre: "Blocage des prix, hausse des salaires : à Lille, Mélenchon a présenté ses mesures d'urgence sociale"
+      url: "https://linsoumission.fr/2026/09/05/jean-luc-melenchon-braderie-lille/"
+      date: 2026-09-05

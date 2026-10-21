@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: glucksmann
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "Augmenter le salaire net des travailleurs"
+    explication: "Financé en taxant le 1 % des plus gros héritages : 15 milliards d'euros versés directement sur la fiche de paie."
+    citation: "Nous augmenterons la rémunération nette des travailleurs français"
+    source:
+      media: "Public Sénat"
+      titre: "Fiscalité, école, immigration : ce que propose Raphaël Glucksmann"
+      url: "https://www.publicsenat.fr/actualites/politique/fiscalite-ecole-immigration-ce-que-propose-raphael-glucksmann"
+      date: 2026-08-24
+  - titre: "Taxer les « superprofits » des pétroliers"
+    explication: "Pour financer une aide ciblée face à la hausse des prix des carburants."
+    citation: null
+    source:
+      media: "Sud Radio"
+      titre: "Présidentielle 2027 : que proposent les candidats pour lutter contre la flambée des prix du carburant ?"
+      url: "https://www.sudradio.fr/politique/presidentielle-2027-que-proposent-les-candidats-pour-lutter-contre-la-flambee-des-prix-du-carburant"
+      date: 2026-09-16

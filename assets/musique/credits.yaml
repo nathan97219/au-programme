@@ -1,0 +1,7 @@
+# Musiques de fond (NCS, NoCopyrightSounds) : très discrètes sous la voix. Le crédit est ajouté à chaque légende.
+# Un fichier qui n'est pas listé ici (ou sans crédit) n'est jamais utilisé.
+morceaux:
+  - fichier: "heroes-tonight-slowed.mp3"
+    credit: "Johnning, Janji - Heroes Tonight (Slowed) [NCS Release] · Music provided by NoCopyrightSounds"
+  - fichier: "magnetic.mp3"
+    credit: "springs - Magnetic [NCS Release] · Music provided by NoCopyrightSounds"

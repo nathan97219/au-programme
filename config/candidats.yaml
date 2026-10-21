@@ -1,0 +1,11 @@
+# Les candidats suivis. L'ordre ici n'a aucune importance : l'ordre de passage est tiré au sort chaque semaine.
+# Aucune étiquette « gauche / droite / extrême » n'est jamais affichée : seulement le nom et le parti.
+# wikipedia : titre de la page Wikipédia (fr), utilisé pour récupérer une photo libre de droits (voir photos.py).
+candidats:
+  - {id: glucksmann, nom: "Raphaël Glucksmann", parti: "Place publique", wikipedia: "Raphaël Glucksmann"}
+  - {id: le-pen, nom: "Marine Le Pen", parti: "Rassemblement national", wikipedia: "Marine Le Pen"}
+  - {id: melenchon, nom: "Jean-Luc Mélenchon", parti: "La France insoumise", wikipedia: "Jean-Luc Mélenchon"}
+  - {id: philippe, nom: "Édouard Philippe", parti: "Horizons", wikipedia: "Édouard Philippe"}
+  - {id: retailleau, nom: "Bruno Retailleau", parti: "Les Républicains", wikipedia: "Bruno Retailleau"}
+  - {id: tondelier, nom: "Marine Tondelier", parti: "Les Écologistes", wikipedia: "Marine Tondelier"}
+  - {id: zemmour, nom: "Éric Zemmour", parti: "Reconquête", wikipedia: "Éric Zemmour"}

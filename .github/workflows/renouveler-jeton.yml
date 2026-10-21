@@ -1,0 +1,44 @@
+# Le jeton Instagram expire au bout de 60 jours : ce robot le prolonge chaque mois, tout seul.
+# Prérequis : un secret GH_PAT (jeton GitHub « fine-grained », permission Secrets : Read and write, sur ce dépôt uniquement).
+name: Renouveler le jeton Instagram
+on:
+  schedule:
+    - cron: "0 6 1 * *"      # le 1er de chaque mois
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  renouveler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Renouveler et enregistrer le nouveau jeton
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          NOUVEAU=$(python -m auprogramme.pipeline instagram renouveler)
+          echo "::add-mask::$NOUVEAU"
+          gh secret set IG_ACCESS_TOKEN --body "$NOUVEAU" --repo "${{ github.repository }}"
+          echo "✅ Jeton renouvelé pour 60 jours"
+
+      - name: Prévenir sur Telegram en cas d'échec
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LIEN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=⛔ Au Programme : le renouvellement du jeton Instagram a échoué. Sans action, les publications s'arrêteront à son expiration. Détails : ${LIEN}" > /dev/null || true

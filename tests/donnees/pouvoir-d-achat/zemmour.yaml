@@ -1,0 +1,9 @@
+theme: pouvoir-d-achat
+candidat: zemmour
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+# Aucune proposition détaillée trouvée pour 2027 (presse nationale, sites du candidat et de Reconquête) à cette date.
+# Ses propositions de 2022 ne sont PAS reprises : elles concernaient une autre élection.
+# Si une proposition récente est publiée, la remplacer par des mesures sourcées et retirer « aucune_proposition ».
+aucune_proposition: true
+mesures: []

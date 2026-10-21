@@ -1,0 +1,102 @@
+# Au Programme : réglages généraux.
+marque:
+  nom: "Au Programme"
+  instagram: "@au.programme"
+  mention: "Compte indépendant, sans lien avec aucun parti ni aucun candidat."
+
+calendrier:
+  debut: 2026-10-26              # lundi de la 1re semaine (thème n°1). Chaque lundi : thème suivant de config/themes.yaml
+  fuseau: "Europe/Paris"
+  # Pauses obligatoires (veille et jour de vote : pas de publication). À compléter quand les dates seront officielles.
+  pauses: []                     # ex. - {du: 2027-04-09, au: 2027-04-11}
+
+video:
+  voix: "fr-FR-DeniseNeural"     # voix de synthèse neutre (jamais d'imitation de la voix d'un candidat)
+  volume_musique: 0.08
+
+publication:
+  # false : une fiche part sans relecture préalable, à condition que TOUTES ses sources soient dans la liste
+  # ci-dessous (et que le contrôle de neutralité passe). « statut: bloque » dans une fiche empêche toujours sa publication.
+  validation_humaine: false
+  # Sources reconnues : médias professionnels, sites officiels de l'État, sites officiels des candidats et partis.
+  # Toute autre source (agrégateur, blog, réseau social…) bloque la publication. Un sous-domaine est accepté (www., fr.…).
+  sources_reconnues:
+    medias:
+      - afp.com
+      - lemonde.fr
+      - lefigaro.fr
+      - liberation.fr
+      - lesechos.fr
+      - leparisien.fr
+      - la-croix.com
+      - lopinion.fr
+      - lexpress.fr
+      - lepoint.fr
+      - nouvelobs.com
+      - marianne.net
+      - humanite.fr
+      - challenges.fr
+      - latribune.fr
+      - 20minutes.fr
+      - ouest-france.fr
+      - sudouest.fr
+      - ladepeche.fr
+      - lavoixdunord.fr
+      - leprogres.fr
+      - ledauphine.com
+      - letelegramme.fr
+      - nicematin.com
+      - lyoncapitale.fr
+      - franceinfo.fr
+      - francetvinfo.fr
+      - radiofrance.fr
+      - publicsenat.fr
+      - lcp.fr
+      - europe1.fr
+      - rtl.fr
+      - rmc.bfmtv.com
+      - bfmtv.com
+      - tf1info.fr
+      - lci.fr
+      - sudradio.fr
+      - france24.com
+      - rfi.fr
+      - euronews.com
+    officiels:
+      - vie-publique.fr
+      - conseil-constitutionnel.fr
+      - assemblee-nationale.fr
+      - senat.fr
+      - legifrance.gouv.fr
+      - elysee.fr
+      - gouvernement.fr
+      - interieur.gouv.fr
+      - cnccep.fr
+    candidats_et_partis:            # la parole du candidat lui-même : la légende précise toujours le média
+      - lafranceinsoumise.fr
+      - linsoumission.fr
+      - melenchon.fr
+      - rassemblementnational.fr
+      - lesrepublicains.fr
+      - placepublique.eu
+      - parti-socialiste.fr
+      - lesecologistes.fr
+      - marinetondelier.fr
+      - parti-reconquete.fr
+      - horizonsleparti.fr
+      - parti-renaissance.fr
+
+recherche:                       # le robot « Préparer les fiches » (chaque mercredi)
+  anciennete_max_jours: 365      # une source plus ancienne est écartée
+  pause_entre_appels: 4          # secondes (quota gratuit de Gemini)
+
+llm:                             # Gemini (offre gratuite, même clé que Le Chiffre) : il PROPOSE, le code VÉRIFIE
+  provider: gemini
+  model: "gemini-flash-latest"
+  fallback_models: ["gemini-2.5-flash", "gemini-flash-lite-latest"]
+
+instagram:
+  actif: true
+  bucket: "auprogramme"          # stockage public temporaire (Supabase) le temps de la publication
+  graph_version: "v21.0"
+  hashtags: ["#presidentielle2027", "#auprogramme", "#programme", "#politique"]

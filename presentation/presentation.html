@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Archivo"; src: url("{{ polices }}/archivo-wdth.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; }
+@font-face { font-family: "Serif"; src: url("{{ polices }}/dm-serif-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Inter"; src: url("{{ polices }}/inter-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Mono"; src: url("{{ polices }}/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+/* Au Programme : papier, encre, surligneur. Aucune couleur de parti. */
+:root { --papier: #F4F1EA; --encre: #15171C; --doux: #5D6170; --pale: #9A9DA8; --trait: #DDD8CC; --surligneur: #FFD84D; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--papier); }
+body { color: var(--encre); font-family: "Inter", sans-serif; position: relative; }
+/* Lignes de cahier en fond, très discrètes */
+.fond { position: absolute; inset: 0; background-image: linear-gradient(var(--trait) 2px, transparent 2px); background-size: 100% 96px; opacity: .45; }
+.marge { position: absolute; top: 0; bottom: 0; left: 64px; width: 3px; background: #E9B9B0; opacity: .5; }
+.tete { position: absolute; top: 150px; left: 90px; right: 120px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: "Archivo"; font-weight: 800; font-stretch: 100%; font-size: 34px; letter-spacing: .02em; }
+.logo b { font-weight: 800; }
+.date { font-family: "Mono"; font-size: 26px; color: var(--doux); letter-spacing: .06em; }
+.progression { position: absolute; top: 0; left: 0; height: 10px; background: var(--encre); }
+
+.scene { position: absolute; left: 90px; right: 120px; top: 290px; height: 1200px; display: flex; flex-direction: column; justify-content: center; opacity: 0; }
+.etiquette { font-family: "Mono"; font-size: 30px; letter-spacing: .1em; color: var(--doux); text-transform: uppercase; }
+.geant { font-family: "Archivo"; font-weight: 900; font-stretch: 82%; font-size: 168px; line-height: .95; letter-spacing: -.02em; }
+.grand { font-family: "Archivo"; font-weight: 850; font-stretch: 88%; font-size: 116px; line-height: 1.02; letter-spacing: -.015em; }
+.moyen { font-family: "Archivo"; font-weight: 800; font-stretch: 92%; font-size: 74px; line-height: 1.1; }
+.texte { font-size: 48px; line-height: 1.3; font-weight: 600; color: var(--doux); }
+.el { opacity: 0; }
+/* Le surligneur : un trait jaune qui passe derrière le mot */
+.surl { background-image: linear-gradient(transparent 58%, var(--surligneur) 58%, var(--surligneur) 92%, transparent 92%);
+        background-repeat: no-repeat; background-size: calc(var(--h, 0) * 100%) 100%; padding: 0 .06em; margin: 0 -.06em; }
+
+.noms { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 48px; }
+.nom { font-size: 46px; font-weight: 700; padding: 18px 30px; border: 3px solid var(--encre); border-radius: 60px; background: var(--papier); }
+.semaine { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; margin-top: 56px; }
+.jour { border: 3px solid var(--encre); border-radius: 18px; height: 360px; display: flex; flex-direction: column; align-items: center; padding-top: 22px; background: #FBFAF6; overflow: hidden; }
+.jour small { font-family: "Mono"; font-size: 30px; color: var(--doux); }
+.jour .tire { margin-top: 30px; writing-mode: vertical-rl; transform: rotate(180deg); font-family: "Archivo"; font-weight: 800; font-stretch: 75%; font-size: 40px; white-space: nowrap; }
+.citation { margin-top: 50px; background: #FFFFFF; border-radius: 10px; padding: 56px 52px 44px; box-shadow: 0 18px 50px rgba(21, 23, 28, .10); position: relative; }
+.guillemet { font-family: "Serif"; font-size: 220px; line-height: .6; height: 90px; color: var(--encre); }
+.ligne { height: 30px; border-radius: 6px; background: #E7E3DA; margin-top: 26px; position: relative; overflow: hidden; }
+.ligne i { position: absolute; inset: 0; background: var(--surligneur); transform-origin: left; transform: scaleX(var(--h, 0)); }
+.ligne.forte { background: #CFCAC0; }
+.pied-cit { margin-top: 44px; padding-top: 28px; border-top: 2px solid var(--trait); font-family: "Mono"; font-size: 28px; color: var(--doux); display: flex; justify-content: space-between; }
+.raye { position: relative; display: inline-block; white-space: nowrap; }
+.neutre .grand { font-size: 86px; }
+.raye::after { content: ""; position: absolute; left: -8px; right: -8px; top: 52%; height: 12px; background: var(--encre); transform: scaleX(var(--r, 0)); transform-origin: left; }
+.fin { align-items: flex-start; }
+.fin .marque { font-family: "Archivo"; font-weight: 900; font-stretch: 90%; font-size: 150px; line-height: .95; letter-spacing: -.02em; }
+.fin .pseudo { margin-top: 44px; font-size: 52px; font-weight: 800; }
+.fin .cta { margin-top: 70px; font-size: 64px; font-weight: 800; line-height: 1.15; }
+.fin .mention { margin-top: 80px; font-family: "Mono"; font-size: 26px; color: var(--pale); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="fond"></div><div class="marge"></div>
+<div class="progression" id="progression"></div>
+<div class="tete"><div class="logo">Au <span class="surl" style="--h:1">Programme</span></div><div class="date">PRÉSIDENTIELLE 2027</div></div>
+
+<!-- 0 · Accroche -->
+<section class="scene" data-b0="0" data-b1="8">
+  <div class="etiquette el" data-b="0">Présidentielle 2027</div>
+  <div class="geant" style="margin-top: 30px"><span class="el" data-b="1">Qui</span> <span class="el" data-b="2">propose</span><br><span class="el surl" data-b="3" data-h="4">quoi ?</span></div>
+</section>
+
+<!-- 1 · Les candidats -->
+<section class="scene" data-b0="8" data-b1="20">
+  <div class="grand el" data-b="0"><span class="surl" data-h="1">{{ candidats | length }} candidats.</span></div>
+  <div class="noms">
+    {% for c in candidats %}<div class="nom el" data-b="{{ 2 + loop.index0 }}">{{ c }}</div>{% endfor %}
+  </div>
+  <div class="moyen el" data-b="{{ 3 + candidats | length }}" style="margin-top: 70px">1 thème par semaine.</div>
+</section>
+
+<!-- 2 · Chaque jour, un candidat, ordre tiré au sort -->
+<section class="scene" data-b0="20" data-b1="30">
+  <div class="grand el" data-b="0">Chaque jour,<br>un candidat.</div>
+  <div class="semaine el" data-b="1" id="semaine">
+    {% for j in ["L", "M", "M", "J", "V", "S", "D"] %}<div class="jour"><small>{{ j }}</small><div class="tire" data-i="{{ loop.index0 }}"></div></div>{% endfor %}
+  </div>
+  <div class="moyen el" data-b="6" style="margin-top: 56px">Ordre <span class="surl" data-h="7">tiré au sort</span>.</div>
+</section>
+
+<!-- 3 · Citées mot pour mot, avec la source -->
+<section class="scene" data-b0="30" data-b1="40">
+  <div class="grand el" data-b="0">Leurs propositions,<br><span class="surl" data-h="2">mot pour mot</span>.</div>
+  <div class="citation el" data-b="1">
+    <div class="guillemet">“</div>
+    <div class="ligne forte"></div>
+    <div class="ligne forte" style="width: 92%"><i data-l="3"></i></div>
+    <div class="ligne forte" style="width: 74%"><i data-l="4"></i></div>
+    <div class="ligne" style="width: 55%"></div>
+    <div class="pied-cit el" data-b="5"><span>SOURCE · DOCUMENT · PAGE</span><span>DATE</span></div>
+  </div>
+  <div class="moyen el" data-b="6" style="margin-top: 50px">Avec la source. Toujours.</div>
+</section>
+
+<!-- 4 · Neutralité -->
+<section class="scene neutre" data-b0="40" data-b1="50">
+  <div class="grand"><span class="el raye" data-b="0" data-r="1">Aucun avis.</span></div>
+  <div class="grand" style="margin-top: 20px"><span class="el raye" data-b="2" data-r="3">Aucun commentaire.</span></div>
+  <div class="grand" style="margin-top: 60px"><span class="el" data-b="5">Juste les</span> <span class="el surl" data-b="6" data-h="7">programmes.</span></div>
+</section>
+
+<!-- 5 · Premier thème -->
+<section class="scene" data-b0="50" data-b1="58">
+  <div class="etiquette el" data-b="0">Premier thème</div>
+  <div class="geant el" data-b="1" style="margin-top: 30px">Le <span class="surl" data-h="2">pouvoir</span><br><span class="surl" data-h="2.6">d'achat</span>.</div>
+  <div class="texte el" data-b="4" style="margin-top: 50px">La 1<sup>re</sup> priorité des Français.</div>
+  <div class="etiquette el" data-b="5" style="margin-top: 24px; font-size: 24px; color: var(--pale)">Sondage Elabe pour BFMTV, août 2026</div>
+</section>
+
+<!-- 6 · Fin -->
+<section class="scene fin" data-b0="58" data-b1="999">
+  <div class="marque el" data-b="0">Au<br><span class="surl" data-h="1">Programme</span></div>
+  <div class="pseudo el" data-b="2">@au.programme</div>
+  <div class="cta el" data-b="3">Abonnez-vous :<br>chaque jour, un programme<br>passé au crible.</div>
+  <div class="mention el" data-b="5">Compte indépendant, sans lien avec<br>aucun parti ni aucun candidat.</div>
+</section>
+
+<script>
+const D = {{ donnees | tojson }};
+const P = 60 / D.bpm;
+const lisse = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3));
+const scenes = [...document.querySelectorAll(".scene")].map((el) => ({
+  el, b0: +el.dataset.b0, b1: +el.dataset.b1,
+  els: [...el.querySelectorAll(".el")].map((e) => ({ e, b: +e.dataset.b })),
+  surl: [...el.querySelectorAll("[data-h]")].map((e) => ({ e, b: +e.dataset.h })),
+  lignes: [...el.querySelectorAll("[data-l]")].map((e) => ({ e, b: +e.dataset.l })),
+  rayes: [...el.querySelectorAll("[data-r]")].map((e) => ({ e, b: +e.dataset.r })),
+}));
+const tires = [...document.querySelectorAll(".tire")];
+
+window.poser = (t) => {
+  const beat = t / P;
+  document.getElementById("progression").style.width = `${Math.min(1, t / D.total) * 100}%`;
+  scenes.forEach((s) => {
+    const local = beat - s.b0;
+    const entree = lisse(local / 0.6);
+    const sortie = 1 - lisse((beat - s.b1 + 0.5) / 0.5);
+    const visible = beat >= s.b0 - 0.01 && beat < s.b1 + 0.01;
+    s.el.style.opacity = visible ? Math.min(entree, sortie) : 0;
+    s.el.style.transform = `translateY(${(1 - sortie) * -40}px)`;
+    s.els.forEach(({ e, b }) => {
+      const q = lisse((local - b) / 0.5);
+      e.style.opacity = q;
+      e.style.transform = `translateY(${(1 - q) * 46}px) scale(${0.96 + 0.04 * q})`;
+    });
+    s.surl.forEach(({ e, b }) => e.style.setProperty("--h", lisse((local - b) / 0.9)));
+    s.lignes.forEach(({ e, b }) => e.style.setProperty("--h", lisse((local - b) / 1.1)));
+    s.rayes.forEach(({ e, b }) => e.style.setProperty("--r", lisse((local - b) / 0.5)));
+    // Le tirage au sort : les noms défilent dans chaque case, puis s'arrêtent l'un après l'autre
+    if (s.b0 === 20) {
+      tires.forEach((el, i) => {
+        const arret = 2 + i * 0.5;
+        const k = local < arret ? Math.floor(local * 6 + i * 3) : null;
+        el.textContent = k === null ? D.ordre[i] : D.noms_courts[((k % 7) + 7) % 7];
+        el.style.opacity = local < arret ? 0.35 : 1;
+      });
+    }
+  });
+};
+window.poser(0);
+</script>
+</body>
+</html>

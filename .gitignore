@@ -1,0 +1,11 @@
+output/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+presentation/apercu_*.jpg
+presentation/planche*.jpg
+presentation/verif.jpg
+presentation/rond.jpg
+*.mp4
+Au-Programme-photo-profil.png

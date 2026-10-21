@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: le-pen
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "Baisser la TVA sur l'énergie de 20 % à 5,5 %"
+    explication: "Gaz, électricité, carburants, bois de chauffage et fioul, avec une baisse de la taxe sur les carburants (l'accise)."
+    citation: null
+    source:
+      media: "Public Sénat"
+      titre: "TVA à 5,5 %, taxe flottante, gel des prix : ce qu'il est possible de faire ou non pour baisser les prix des carburants"
+      url: "https://www.publicsenat.fr/actualites/economie/tva-a-55-taxe-flottante-gel-des-prix-ce-quil-est-possible-de-faire-ou-non-pour-baisser-les-prix-des-carburants"
+      date: 2026-03-26
+  - titre: "Supprimer la TVA sur 100 produits de première nécessité"
+    explication: "Un panier de produits du quotidien ne serait plus soumis à la TVA."
+    citation: null
+    source:
+      media: "Public Sénat"
+      titre: "TVA à 5,5 %, taxe flottante, gel des prix : ce qu'il est possible de faire ou non pour baisser les prix des carburants"
+      url: "https://www.publicsenat.fr/actualites/economie/tva-a-55-taxe-flottante-gel-des-prix-ce-quil-est-possible-de-faire-ou-non-pour-baisser-les-prix-des-carburants"
+      date: 2026-03-26

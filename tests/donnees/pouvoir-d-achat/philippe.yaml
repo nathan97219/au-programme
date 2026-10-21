@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: philippe
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "Exonérer de cotisations 2 heures supplémentaires par semaine"
+    explication: "Selon lui, un salarié au SMIC y gagnerait environ 1 000 euros par an."
+    citation: "si on veut s'en sortir, il va falloir qu'on travaille tous un peu plus"
+    source:
+      media: "Euronews (interview dans « L'Heure de vérité », France 2)"
+      titre: "Présidentielle 2027 : Édouard Philippe mise sur le travail et la réduction des dépenses publiques"
+      url: "https://fr.euronews.com/2026/10/09/presidentielle-2027-edouard-philippe-mise-sur-le-travail-et-la-reduction-des-depenses-publ"
+      date: 2026-10-09
+  - titre: "Une allocation familiale unique de 350 € par mois dès le 1er enfant"
+    explication: "Un montant dégressif en fonction de l'impôt sur le revenu."
+    citation: null
+    source:
+      media: "Euronews (interview dans « L'Heure de vérité », France 2)"
+      titre: "Présidentielle 2027 : Édouard Philippe mise sur le travail et la réduction des dépenses publiques"
+      url: "https://fr.euronews.com/2026/10/09/presidentielle-2027-edouard-philippe-mise-sur-le-travail-et-la-reduction-des-depenses-publ"
+      date: 2026-10-09

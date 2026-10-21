@@ -1,0 +1,21 @@
+theme: pouvoir-d-achat
+candidat: retailleau
+statut: valide             # relu et validé le 21 octobre 2026
+consulte_le: 2026-10-21
+mesures:
+  - titre: "30 minutes de travail en plus par jour, mieux rémunérées"
+    explication: "Jusqu'à deux mois de salaire net supplémentaires par an, selon sa proposition."
+    citation: null
+    source:
+      media: "Europe 1"
+      titre: "Pouvoir d'achat : les principales propositions de Bruno Retailleau pour faire baisser les prix"
+      url: "https://www.europe1.fr/politique/pouvoir-dachat-les-principales-propositions-de-bruno-retailleau-pour-faire-baisser-les-prix-1080176"
+      date: 2026-09-15
+  - titre: "Baisser le carburant de 15 à 17 centimes par litre"
+    explication: "En supprimant les certificats d'économies d'énergie (CEE)."
+    citation: null
+    source:
+      media: "Sud Radio"
+      titre: "Présidentielle 2027 : que proposent les candidats pour lutter contre la flambée des prix du carburant ?"
+      url: "https://www.sudradio.fr/politique/presidentielle-2027-que-proposent-les-candidats-pour-lutter-contre-la-flambee-des-prix-du-carburant"
+      date: 2026-09-16

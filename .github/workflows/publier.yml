@@ -1,0 +1,66 @@
+# Chaque jour : la vidéo du candidat du jour (thème de la semaine), UNIQUEMENT si sa fiche est validée.
+# Fiche non validée ou non conforme : rien n'est publié, et une alerte part sur Telegram.
+name: Publier la vidéo du jour
+on:
+  schedule:
+    - cron: "0 16 * * *"     # 18:00 à Paris en été, 17:00 en hiver
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "essai = tout le circuit sans publier ; publier = publication réelle ; compte = afficher le compte relié"
+        type: choice
+        options: [essai, publier, compte]
+        default: essai
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publication
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONPATH: src
+      MODE: ${{ github.event.inputs.mode }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Préparer et publier
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ "$MODE" = "compte" ]; then
+            python -m auprogramme.pipeline instagram compte
+          elif [ "$MODE" = "essai" ]; then
+            python -m auprogramme.pipeline publier --essai
+          else
+            python -m auprogramme.pipeline publier
+          fi
+      - name: Garder la vidéo et la légende (30 jours)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: video-${{ github.run_id }}
+          path: output/
+          retention-days: 30
+      - name: Enregistrer l'historique
+        if: github.event.inputs.mode != 'essai' && github.event.inputs.mode != 'compte'
+        run: |
+          git config user.name "auprogramme-bot"
+          git config user.email "auprogramme-bot@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || (git commit -m "data: publication du $(date +%F)" && git pull --rebase && git push)
