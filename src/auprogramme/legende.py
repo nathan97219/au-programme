@@ -25,6 +25,8 @@ def legende(prog: dict, fiche: dict, settings: dict, credit_photo: str | None, c
             lignes.append("")
             if s["url"] not in sources:
                 sources.append(s["url"])
+        lignes += ["ℹ️ Propositions relevées dans les déclarations, documents et propositions de loi publiés à ce jour : "
+                   "les programmes officiels pour 2027 ne sont pas encore tous connus.", ""]
     suiv = prog["suivant"]
     if suiv["meme_theme"]:
         lignes.append(f"Demain : {suiv['candidat']['nom']}, sur le même thème.")

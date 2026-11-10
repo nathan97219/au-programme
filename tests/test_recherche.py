@@ -61,7 +61,7 @@ def test_site_non_reconnu_page_absente_date_ancienne_et_relecture_negative_rejet
 
 def test_candidat_absent_de_la_page_rejete(pages):
     pages[URL] = PAGE.replace("Bruno Retailleau", "Le ministre")
-    assert "pas cité" in verifier(BONNE)[1]
+    assert verifier(BONNE)[0] is None                              # page courte sans le candidat : rejetée
 
 
 def test_fiche_complete_et_jugement_rejete():
@@ -107,3 +107,49 @@ def test_preparer_semaine_ecrit_les_7_fiches_et_fait_le_menage(tmp_path, monkeyp
 def test_nombres():
     assert recherche.nombres("1 000 euros, 5,5 % et 200 000 €") == ["1000", "5,5", "200000"]
     assert recherche.nombres_presents("dès le 1er enfant", "dès le premier enfant") == []
+
+
+BLOQUEE = "https://www.lefigaro.fr/politique/2026/10/20/retailleau-securite-prisons-20261020"
+APPUI = "Bruno Retailleau propose de créer 10 000 places de prison supplémentaires d'ici 2032."
+
+
+def test_page_reservee_mais_appuyee_par_google_gardee_et_signalee():
+    m = {**BONNE, "source": {"media": "Le Figaro", "titre": "Sécurité : le plan Retailleau", "url": BLOQUEE}}
+    ok, raison = recherche.verifier_mesure(m, CAND, JOUR, S, [BLOQUEE], lambda p: True, {BLOQUEE: [APPUI]})
+    assert raison == "" and ok["source"]["verification"] == "google"
+    assert ok["source"]["date"] == date(2026, 10, 20) and ok["citation"] is None   # citation invérifiable : retirée
+    assert not fiches.problemes({"theme": "securite", "candidat": "retailleau", "statut": "valide", "consulte_le": JOUR,
+                                 "mesures": [ok]}, "securite", "retailleau", S)
+
+
+def test_page_reservee_sans_appui_de_google_rejetee():
+    m = {**BONNE, "source": {"media": "Le Figaro", "titre": "x", "url": BLOQUEE}}
+    ok, raison = recherche.verifier_mesure(m, CAND, JOUR, S, [BLOQUEE], lambda p: True, {BLOQUEE: ["Autre sujet sans rapport."]})
+    assert ok is None and "réservée" in raison
+
+
+def test_page_reservee_sans_date_rejetee():
+    sans_date = "https://www.lefigaro.fr/politique/retailleau-securite"
+    m = {**BONNE, "source": {"media": "Le Figaro", "titre": "x", "url": sans_date}}
+    ok, raison = recherche.verifier_mesure(m, CAND, JOUR, S, [sans_date], lambda p: True, {sans_date: [APPUI]})
+    assert ok is None and "date" in raison
+
+
+def test_phrase_au_chiffre_introuvable_retiree_mais_mesure_gardee():
+    m = {**BONNE, "explication": "D'ici 2032, selon sa proposition. Coût estimé : 4 milliards."}
+    ok, _ = verifier(m)
+    assert ok and ok["explication"] == "D'ici 2032, selon sa proposition."
+
+
+def test_date_lue_dans_le_texte_et_parti_cite(pages):
+    pages[URL] = ("<html><body><p>Publié le 12 octobre 2026. Les Républicains proposent de créer 10 000 places de prison "
+                  "supplémentaires d'ici 2032. " + "Contexte. " * 300 + "</p></body></html>")
+    ok, raison = verifier({**BONNE, "citation": None})
+    assert raison == "" and ok["source"]["date"] == date(2026, 10, 12)
+
+
+def test_compteur_des_rejets():
+    j = ["✖️ A : « x » écartée : page inaccessible ou réservée aux abonnés (lemonde.fr)",
+         "✖️ B : « y » écartée : page inaccessible ou réservée aux abonnés (lefigaro.fr)",
+         "✖️ C : « z » écartée : date de publication introuvable ou trop ancienne", "✅ D : ok"]
+    assert recherche.compter_rejets(j) == [("page bloquée", 2), ("date", 1)]

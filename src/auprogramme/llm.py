@@ -149,8 +149,16 @@ def rechercher(prompt: str, settings: dict, retries: int = 3) -> tuple[dict, lis
                     continue
                 cand = r.json()["candidates"][0]
                 texte = "".join(p.get("text", "") for p in cand["content"]["parts"])
-                chunks = (cand.get("groundingMetadata") or {}).get("groundingChunks") or []
-                sources = [c["web"] for c in chunks if c.get("web", {}).get("uri")]
+                meta = cand.get("groundingMetadata") or {}
+                chunks = meta.get("groundingChunks") or []
+                # Pour chaque source : les passages de la réponse que Google rattache à cette source (« appuis »)
+                appuis: dict[int, list[str]] = {}
+                for sup in meta.get("groundingSupports") or []:
+                    seg = (sup.get("segment") or {}).get("text") or ""
+                    for i in sup.get("groundingChunkIndices") or []:
+                        if seg:
+                            appuis.setdefault(i, []).append(seg)
+                sources = [{**c["web"], "appuis": appuis.get(i, [])} for i, c in enumerate(chunks) if c.get("web", {}).get("uri")]
                 return _extract_json(texte), sources
             except requests.RequestException as e:
                 derniere = f"réseau : {type(e).__name__}"
