@@ -1,5 +1,5 @@
 # Chaque jour : la vidéo du candidat du jour (thème de la semaine), UNIQUEMENT si sa fiche est validée.
-# Fiche non validée ou non conforme : rien n'est publié, et une alerte part sur Telegram.
+# Fiche non validée ou non conforme : rien n'est publié, et une alerte part dans un ticket GitHub.
 name: Publier la vidéo du jour
 on:
   schedule:
@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: publication
@@ -40,8 +41,7 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ github.token }}          # messages dans les tickets GitHub
         run: |
           if [ "$MODE" = "compte" ]; then
             python -m auprogramme.pipeline instagram compte

@@ -11,7 +11,7 @@ dans un ordre tiré au sort. Après l'élection : le programme du président él
   pour mot, relecture indépendante de la page). Rien de vérifiable : « aucune proposition vérifiable trouvée ».
 - **Sources professionnelles uniquement** : une fiche part directement (sans relecture) seulement si TOUTES ses sources
   sont dans la liste `publication.sources_reconnues` (grands médias, sites officiels, sites des candidats et partis).
-  Sinon : rien n'est publié et une alerte part sur Telegram. `statut: bloque` empêche toujours une publication.
+  Sinon : rien n'est publié et une alerte part dans un ticket GitHub (« 🔔 Alertes du robot »). `statut: bloque` empêche toujours une publication.
 - **Même traitement pour tous** : même maquette, 1 ou 2 mesures chacun, même voix neutre, même musique.
 - **Chaque mesure a sa source** (média, titre, lien, date), affichée dans la vidéo et en légende.
 - **Aucune étiquette** (« gauche », « droite », « extrême »…) ni jugement : le contrôle `verifier` les refuse.
@@ -22,7 +22,7 @@ dans un ordre tiré au sort. Après l'élection : le programme du président él
 ## Chaque semaine : rien à faire
 
 Le mercredi, le robot prépare les fiches de la semaine suivante, supprime celles des thèmes passés et envoie un
-résumé sur Telegram. Facultatif : corriger une fiche à la main, la bloquer (`statut: bloque`), ou regarder les
+résumé dans un ticket GitHub (« 📋 Fiches de la semaine »). Facultatif : corriger une fiche à la main, la bloquer (`statut: bloque`), ou regarder les
 vidéos avant leur sortie avec **Actions → Aperçu de la semaine**.
 
 Commandes locales : `python -m auprogramme.pipeline calendrier --semaines 4` (qui passe quand, état des fiches),
@@ -40,7 +40,7 @@ Commandes locales : `python -m auprogramme.pipeline calendrier --semaines 4` (qu
 | Renouveler le jeton Instagram | le 1er du mois | prolonge le jeton de 60 jours |
 
 Secrets GitHub : `GEMINI_API_KEY`, `IG_ACCESS_TOKEN`, `IG_USER_ID` (facultatif), `SUPABASE_URL`, `SUPABASE_SECRET_KEY`,
-`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `GH_PAT`. Bucket Supabase public `auprogramme` (video/mp4, 50 Mo).
+`GH_PAT` (les alertes arrivent dans des tickets GitHub). Bucket Supabase public `auprogramme` (video/mp4, 50 Mo).
 
 ## Les phases du compte
 

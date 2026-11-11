@@ -42,16 +42,9 @@ def noter(entree: dict) -> None:
 
 
 def _alerter(texte: str) -> None:
-    """Message Telegram (facultatif : sans les secrets, on écrit seulement dans le journal)."""
-    print(texte)
-    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
-    if token and chat:
-        import requests
-        try:
-            requests.post(f"https://api.telegram.org/bot{token}/sendMessage", timeout=20,
-                          data={"chat_id": chat, "text": texte})
-        except requests.RequestException:
-            pass
+    """Message dans le ticket « Alertes » du dépôt GitHub (sans GitHub : seulement affiché). Jamais bloquant."""
+    from .notifications import signaler
+    signaler(texte)
 
 
 def _jour(args, settings) -> date:
@@ -161,8 +154,10 @@ def cmd_preparer_semaine(args, settings, themes, candidats) -> int:
     cible = lundi(date.fromisoformat(args.semaine)) if args.semaine else lundi(jour) + timedelta(days=7)
     r = preparer_semaine(cible, jour, settings, themes, candidats, refaire=args.refaire)
     print("\n".join(r["journal"]))
-    texte = resume(r, cible)
-    _alerter(texte)
+    from .notifications import signaler
+    detail = "\n".join(r["journal"])
+    signaler(resume(r, cible) + f"\n\n<details><summary>Le détail mesure par mesure</summary>\n\n```\n{detail[:60000]}\n```\n</details>",
+             sujet="📋 Fiches de la semaine", etiquette="fiches")
     return 0
 
 

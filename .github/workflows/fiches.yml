@@ -1,7 +1,7 @@
 # Chaque mercredi : le robot prépare les 7 fiches de la semaine suivante (thème + ordre tiré au sort).
 # Gemini PROPOSE des mesures avec leurs sources ; le code ne garde que ce qu'il a vérifié dans la page source
 # (site reconnu, date récente, chiffres, citation mot pour mot, relecture). Puis ménage des anciennes fiches.
-# Un résumé arrive sur Telegram. Pour corriger une fiche : la modifier dans contenu/ ; pour la bloquer : « statut: bloque ».
+# Un résumé arrive dans un ticket GitHub. Pour corriger une fiche : la modifier dans contenu/ ; pour la bloquer : « statut: bloque ».
 name: Préparer les fiches de la semaine
 on:
   schedule:
@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: fiches
@@ -42,8 +43,7 @@ jobs:
       - name: Rechercher et vérifier les propositions
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ github.token }}          # messages dans les tickets GitHub
         run: |
           OPTS=""
           [ -n "$SEMAINE" ] && OPTS="$OPTS --semaine $SEMAINE"
@@ -59,13 +59,10 @@ jobs:
           git config user.email "auprogramme-bot@users.noreply.github.com"
           git add -A contenu/
           git diff --cached --quiet || (git commit -m "Fiches de la semaine (robot de recherche)" && git pull --rebase && git push)
-      - name: Prévenir sur Telegram en cas d'échec
+      - name: Prévenir dans un ticket GitHub en cas d'échec
         if: failure()
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
           LIEN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-            --data-urlencode "text=⛔ Au Programme : la préparation des fiches de la semaine a échoué. Détails : ${LIEN}" > /dev/null || true
+          python -m auprogramme.notifications "⛔ Au Programme : la préparation des fiches de la semaine a échoué. Détails : ${LIEN}" || true

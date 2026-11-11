@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   renouveler:
@@ -32,13 +33,10 @@ jobs:
           gh secret set IG_ACCESS_TOKEN --body "$NOUVEAU" --repo "${{ github.repository }}"
           echo "✅ Jeton renouvelé pour 60 jours"
 
-      - name: Prévenir sur Telegram en cas d'échec
+      - name: Prévenir dans un ticket GitHub en cas d'échec
         if: failure()
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
           LIEN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-            --data-urlencode "text=⛔ Au Programme : le renouvellement du jeton Instagram a échoué. Sans action, les publications s'arrêteront à son expiration. Détails : ${LIEN}" > /dev/null || true
+          python -m auprogramme.notifications "⛔ Au Programme : le renouvellement du jeton Instagram a échoué. Sans action, les publications s'arrêteront à son expiration. Détails : ${LIEN}" || true
