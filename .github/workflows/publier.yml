@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   publier:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # version figée : « latest » est passé à Ubuntu 26.04, que Playwright ne gère pas encore
     timeout-minutes: 30
     env:
       PYTHONPATH: src
